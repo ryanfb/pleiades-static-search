@@ -25,7 +25,8 @@
   };
 
   populate_results = function(results) {
-    var col, i, result, row, _i, _j, _len, _ref, _ref1, _results;
+    var col, i, result, row, _i, _j, _len, _ref, _ref1, _results,
+      _this = this;
     $('#results').empty();
     _results = [];
     for (i = _i = 0, _ref = results.length; _i <= _ref; i = _i += 3) {
