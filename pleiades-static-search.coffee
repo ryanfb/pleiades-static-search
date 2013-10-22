@@ -15,13 +15,17 @@ pleiades_link = (pleiades_id) ->
 	link.text(pleiades_id)
 	return link
 
+append_description = (div_id) ->
+	(data) ->
+		$("##{div_id}").append $('<em>').text(data.description)
+
 populate_results = (results) ->
 	$('#results').empty()
 	for i in [0..results.length] by 3
 		row = $('<div>').attr('class','row')
 		for result in results.slice(i,i+3)
 			col = $('<div>').attr('class','col-md-4')
-			uid = _.uniqueId()
+			uid = _.uniqueId('results-col-')
 			col.attr('id',uid)
 			col.append $('<p>').text("#{result[0]} - ").append(pleiades_link(result[1]))
 			col.append geojson_embed(result[1])
@@ -31,8 +35,7 @@ populate_results = (results) ->
 				crossDomain: true
 				error: (jqXHR, textStatus, errorThrown) ->
           console.log "AJAX Error: #{textStatus}"
-        success: (data) =>
-        	$("##{uid}").append $('<em>').text(data.description)
+        success: append_description(uid)
 			row.append col
 		$('#results').append row
 		$('#results').append $('<br>')
