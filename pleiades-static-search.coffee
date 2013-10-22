@@ -21,6 +21,8 @@ populate_results = (results) ->
 		row = $('<div>').attr('class','row')
 		for result in results.slice(i,i+3)
 			col = $('<div>').attr('class','col-md-4')
+			uid = _.uniqueId()
+			col.attr('id',uid)
 			col.append $('<p>').text("#{result[0]} - ").append(pleiades_link(result[1]))
 			col.append geojson_embed(result[1])
 			$.ajax "http://ryanfb.github.io/pleiades-geojson/geojson/#{result[1]}.geojson",
@@ -30,7 +32,7 @@ populate_results = (results) ->
 				error: (jqXHR, textStatus, errorThrown) ->
           console.log "AJAX Error: #{textStatus}"
         success: (data) =>
-        	col.append $('<em>').text(data.description)
+        	$("##{uid}").append $('<em>').text(data.description)
 			row.append col
 		$('#results').append row
 		$('#results').append $('<br>')
