@@ -29,7 +29,7 @@ populate_results = (results) ->
 				crossDomain: true
 				error: (jqXHR, textStatus, errorThrown) ->
           console.log "AJAX Error: #{textStatus}"
-        success: (data) ->
+        success: (data) =>
         	col.append $('<em>').text(data.description)
 			row.append col
 		$('#results').append row
