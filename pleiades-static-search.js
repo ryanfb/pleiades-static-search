@@ -25,7 +25,7 @@
   };
 
   populate_results = function(results) {
-    var col, i, result, row, _i, _j, _len, _ref, _ref1, _results,
+    var col, i, result, row, uid, _i, _j, _len, _ref, _ref1, _results,
       _this = this;
     $('#results').empty();
     _results = [];
@@ -35,6 +35,8 @@
       for (_j = 0, _len = _ref1.length; _j < _len; _j++) {
         result = _ref1[_j];
         col = $('<div>').attr('class', 'col-md-4');
+        uid = _.uniqueId();
+        col.attr('id', uid);
         col.append($('<p>').text("" + result[0] + " - ").append(pleiades_link(result[1])));
         col.append(geojson_embed(result[1]));
         $.ajax("http://ryanfb.github.io/pleiades-geojson/geojson/" + result[1] + ".geojson", {
@@ -45,7 +47,7 @@
             return console.log("AJAX Error: " + textStatus);
           },
           success: function(data) {
-            return col.append($('<em>').text(data.description));
+            return $("#" + uid).append($('<em>').text(data.description));
           }
         });
         row.append(col);
