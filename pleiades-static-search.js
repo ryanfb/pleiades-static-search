@@ -44,7 +44,7 @@
         col.attr('id', uid);
         col.append($('<p>').text("" + result[0] + " - ").append(pleiades_link(result[1])));
         col.append(geojson_embed(result[1]));
-        $.ajax("http://ryanfb.github.io/pleiades-geojson/geojson/" + result[1] + ".geojson", {
+        $.ajax("../pleiades-geojson/geojson/" + result[1] + ".geojson", {
           type: 'GET',
           dataType: 'json',
           crossDomain: true,
@@ -71,7 +71,7 @@
   };
 
   $(document).ready(function() {
-    return $.ajax("http://ryanfb.github.io/pleiades-geojson/name_index.json", {
+    return $.ajax("../pleiades-geojson/name_index.json", {
       type: 'GET',
       dataType: 'json',
       crossDomain: true,
