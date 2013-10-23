@@ -29,7 +29,7 @@ populate_results = (results) ->
 			col.attr('id',uid)
 			col.append $('<p>').text("#{result[0]} - ").append(pleiades_link(result[1]))
 			col.append geojson_embed(result[1])
-			$.ajax "http://ryanfb.github.io/pleiades-geojson/geojson/#{result[1]}.geojson",
+			$.ajax "../pleiades-geojson/geojson/#{result[1]}.geojson",
 				type: 'GET'
 				dataType: 'json'
 				crossDomain: true
@@ -46,7 +46,7 @@ search_for = (value, index) ->
 	populate_results(matches.reverse())
 
 $(document).ready ->
-	$.ajax "http://ryanfb.github.io/pleiades-geojson/name_index.json",
+	$.ajax "../pleiades-geojson/name_index.json",
 		type: 'GET'
 		dataType: 'json'
 		crossDomain: true
