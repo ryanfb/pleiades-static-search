@@ -34,8 +34,8 @@ populate_results = (results) ->
 				dataType: 'json'
 				crossDomain: true
 				error: (jqXHR, textStatus, errorThrown) ->
-          console.log "AJAX Error: #{textStatus}"
-        success: append_description(uid)
+					console.log "AJAX Error: #{textStatus}"
+				success: append_description(uid)
 			row.append col
 		$('#results').append row
 		$('#results').append $('<br>')
@@ -51,7 +51,7 @@ $(document).ready ->
 		dataType: 'json'
 		crossDomain: true
 		error: (jqXHR, textStatus, errorThrown) ->
-          console.log "AJAX Error: #{textStatus}"
+			console.log "AJAX Error: #{textStatus}"
 		success: (data) ->
 			names = (name[0] for name in data)
 			$('#search').autocomplete
