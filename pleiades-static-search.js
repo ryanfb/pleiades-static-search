@@ -26,7 +26,10 @@
 
   append_description = function(div_id) {
     return function(data) {
-      return $("#" + div_id).append($('<em>').text(data.description));
+      $("#" + div_id).append($('<em>').text(data.description));
+      if (_.values(data.features[0])[2].location_precision === 'unlocated') {
+        return $("#" + div_id).addClass('unlocated');
+      }
     };
   };
 
