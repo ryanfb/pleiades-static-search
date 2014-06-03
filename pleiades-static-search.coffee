@@ -18,6 +18,8 @@ pleiades_link = (pleiades_id) ->
 append_description = (div_id) ->
 	(data) ->
 		$("##{div_id}").append $('<em>').text(data.description)
+		if _.values(data.features[0])[2].location_precision == 'unlocated'
+			$("##{div_id}").addClass('unlocated')
 
 populate_results = (results) ->
 	$('#results').empty()
