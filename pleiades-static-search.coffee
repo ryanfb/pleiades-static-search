@@ -9,7 +9,7 @@ geojson_embed = (pleiades_id) ->
 	iframe.attr('src',"https://render.githubusercontent.com/view/geojson?url=https://raw.githubusercontent.com/ryanfb/pleiades-geojson/master/geojson/#{pleiades_id}.geojson")
 	return iframe
 
-pleiades_link = (pleiades_id) ->
+window.pleiades_link = (pleiades_id) ->
 	link = $('<a>').attr('href',"http://pleiades.stoa.org/places/#{pleiades_id}")
 	link.attr('target','_blank')
 	link.text(pleiades_id)
@@ -29,9 +29,9 @@ populate_results = (results) ->
 			col = $('<div>').attr('class','col-md-4')
 			uid = _.uniqueId('results-col-')
 			col.attr('id',uid)
-			col.append $('<p>').text("#{result[0]} - ").append(pleiades_link(result[1]))
+			col.append $('<p>').text("#{result[0]} - ").append(window.pleiades_link(result[1]))
 			col.append geojson_embed(result[1])
-			$.ajax "../pleiades-geojson/geojson/#{result[1]}.geojson",
+			$.ajax "/pleiades-geojson/geojson/#{result[1]}.geojson",
 				type: 'GET'
 				dataType: 'json'
 				crossDomain: true
@@ -48,7 +48,7 @@ search_for = (value, index) ->
 	populate_results(matches.reverse())
 
 $(document).ready ->
-	$.ajax "../pleiades-geojson/name_index.json",
+	$.ajax "/pleiades-geojson/name_index.json",
 		type: 'GET'
 		dataType: 'json'
 		crossDomain: true
