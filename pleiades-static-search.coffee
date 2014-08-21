@@ -44,8 +44,16 @@ populate_results = (results) ->
 
 search_for = (value, index) ->
 	console.log "Searching for #{value}"
-	matches = index.filter (entry) -> begins_with(entry[0], value)
-	populate_results(matches.reverse())
+	id_url_regex = /(?:https?:\/\/)?(?:pleiades\.stoa\.org\/places\/)?(\d+)\/?/
+	if id_url_regex.test(value)
+		pleiades_id = value.match(id_url_regex)[1]
+		console.log pleiades_id
+		matches = index.filter (entry) -> pleiades_id in entry[1..-1]
+		populate_results(matches)
+	else
+		matches = index.filter (entry) -> begins_with(entry[0], value)
+		populate_results(matches.reverse())
+	console.log "done searching"
 
 $(document).ready ->
 	$.ajax "/pleiades-geojson/name_index.json",
