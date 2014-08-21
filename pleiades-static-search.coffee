@@ -29,7 +29,7 @@ populate_results = (results) ->
 			col = $('<div>').attr('class','col-md-4')
 			uid = _.uniqueId('results-col-')
 			col.attr('id',uid)
-			col.append $('<p>').text("#{result[0]} - ").append(window.pleiades_link(result[1]))
+			col.append $('<p>').text("#{result[0].join(', ')} - ").append(window.pleiades_link(result[1]))
 			col.append geojson_embed(result[1])
 			$.ajax "/pleiades-geojson/geojson/#{result[1]}.geojson",
 				type: 'GET'
@@ -48,11 +48,12 @@ search_for = (value, index) ->
 	if id_url_regex.test(value)
 		pleiades_id = value.match(id_url_regex)[1]
 		console.log pleiades_id
-		matches = index.filter (entry) -> pleiades_id in entry[1..-1]
-		populate_results(matches)
+		name_matches = index.filter (entry) -> pleiades_id in entry[1..-1]
 	else
-		matches = index.filter (entry) -> begins_with(entry[0], value)
-		populate_results(matches.reverse())
+		name_matches = index.filter (entry) -> begins_with(entry[0], value)
+	unique_ids = _.uniq(name_matches.map (match) -> match[1])
+	matches = ([(name_match[0] for name_match in name_matches when name_match[1] == unique_id), unique_id] for unique_id in unique_ids)
+	populate_results(matches.reverse())
 	console.log "done searching"
 
 $(document).ready ->
