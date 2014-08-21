@@ -46,7 +46,7 @@
         col = $('<div>').attr('class', 'col-md-4');
         uid = _.uniqueId('results-col-');
         col.attr('id', uid);
-        col.append($('<p>').text("" + result[0] + " - ").append(window.pleiades_link(result[1])));
+        col.append($('<p>').text("" + (result[0].join(', ')) + " - ").append(window.pleiades_link(result[1])));
         col.append(geojson_embed(result[1]));
         $.ajax("/pleiades-geojson/geojson/" + result[1] + ".geojson", {
           type: 'GET',
@@ -66,22 +66,45 @@
   };
 
   search_for = function(value, index) {
-    var id_url_regex, matches, pleiades_id;
+    var id_url_regex, matches, name_match, name_matches, pleiades_id, unique_id, unique_ids;
     console.log("Searching for " + value);
     id_url_regex = /(?:https?:\/\/)?(?:pleiades\.stoa\.org\/places\/)?(\d+)\/?/;
     if (id_url_regex.test(value)) {
       pleiades_id = value.match(id_url_regex)[1];
       console.log(pleiades_id);
-      matches = index.filter(function(entry) {
+      name_matches = index.filter(function(entry) {
         return __indexOf.call(entry.slice(1), pleiades_id) >= 0;
       });
-      populate_results(matches);
     } else {
-      matches = index.filter(function(entry) {
+      name_matches = index.filter(function(entry) {
         return begins_with(entry[0], value);
       });
-      populate_results(matches.reverse());
     }
+    unique_ids = _.uniq(name_matches.map(function(match) {
+      return match[1];
+    }));
+    matches = (function() {
+      var _i, _len, _results;
+      _results = [];
+      for (_i = 0, _len = unique_ids.length; _i < _len; _i++) {
+        unique_id = unique_ids[_i];
+        _results.push([
+          (function() {
+            var _j, _len1, _results1;
+            _results1 = [];
+            for (_j = 0, _len1 = name_matches.length; _j < _len1; _j++) {
+              name_match = name_matches[_j];
+              if (name_match[1] === unique_id) {
+                _results1.push(name_match[0]);
+              }
+            }
+            return _results1;
+          })(), unique_id
+        ]);
+      }
+      return _results;
+    })();
+    populate_results(matches.reverse());
     return console.log("done searching");
   };
 
