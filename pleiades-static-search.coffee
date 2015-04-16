@@ -15,11 +15,27 @@ window.pleiades_link = (pleiades_id) ->
 	link.text(pleiades_id)
 	return link
 
+append_modern_country = (div_id, lat, lng) ->
+	$.ajax "http://api.geonames.org/countrySubdivisionJSON?lat=#{lat}&lng=#{lng}&username=ryanfb",
+		type: 'GET'
+		dataType: 'json'
+		crossDomain: 'true'
+		error: (jqXHR, textStatus, errorThrown) ->
+			console.log "AJAX Error: #{textStatus}"
+		success: (data) ->
+			if data.countryName
+				modern_country = data.countryName
+				if data.adminName1
+					modern_country += " > " + data.adminName1
+				$("##{div_id}").before($('<span>',style:'color:gray;').text(modern_country))
+				$("##{div_id}").before($('<br>'))
+
 append_description = (div_id) ->
 	(data) ->
-		$("##{div_id}").append $('<em>').text(data.description)
-		if _.values(data.features[0])[2].location_precision == 'unlocated'
+		$("##{div_id}").append $('<em>',id:"#{div_id}_description").text(data.description)
+		if (_.values(data.features[0])[2].location_precision == 'unlocated')
 			$("##{div_id}").addClass('unlocated')
+		append_modern_country("#{div_id}_description", data.reprPoint[1], data.reprPoint[0])
 
 populate_results = (results) ->
 	$('#results').empty()
