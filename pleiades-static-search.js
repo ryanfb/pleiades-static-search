@@ -13,7 +13,7 @@
     iframe.attr('height', 210);
     iframe.attr('width', '100%');
     iframe.attr('frameborder', 0);
-    iframe.attr('src', "https://render.githubusercontent.com/view/geojson?url=https://raw.githubusercontent.com/ryanfb/pleiades-geojson/master/geojson/" + pleiades_id + ".geojson");
+    iframe.attr('src', "https://render.githubusercontent.com/view/geojson?url=https://raw.githubusercontent.com/ryanfb/pleiades-geojson/gh-pages/geojson/" + pleiades_id + ".geojson");
     return iframe;
   };
 
@@ -35,7 +35,6 @@
       },
       success: function(data) {
         var modern_country;
-        console.log(data);
         if (data.countryName) {
           modern_country = data.countryName;
           if (data.adminName1) {

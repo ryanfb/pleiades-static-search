@@ -6,7 +6,7 @@ geojson_embed = (pleiades_id) ->
 	iframe.attr('height',210)
 	iframe.attr('width','100%')
 	iframe.attr('frameborder',0)
-	iframe.attr('src',"https://render.githubusercontent.com/view/geojson?url=https://raw.githubusercontent.com/ryanfb/pleiades-geojson/master/geojson/#{pleiades_id}.geojson")
+	iframe.attr('src',"https://render.githubusercontent.com/view/geojson?url=https://raw.githubusercontent.com/ryanfb/pleiades-geojson/gh-pages/geojson/#{pleiades_id}.geojson")
 	return iframe
 
 window.pleiades_link = (pleiades_id) ->
